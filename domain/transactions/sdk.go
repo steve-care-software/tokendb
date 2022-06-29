@@ -15,6 +15,7 @@ type Builder interface {
 
 // Transaction represents a transaction
 type Transaction interface {
+	Hash() []byte
 	State() states.State
 	Data() []byte
 }

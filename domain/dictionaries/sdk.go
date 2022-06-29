@@ -4,7 +4,13 @@ import (
 	"time"
 
 	"github.com/steve-care-software/selector/domain/selectors"
+	"github.com/steve-care-software/validator/domain/grammars"
 )
+
+// Adapter represents the dictionary adapter
+type Adapter interface {
+	ToDictionary(grammar grammars.Grammar) (Dictionary, error)
+}
 
 // Builder represents a dictionary builder
 type Builder interface {

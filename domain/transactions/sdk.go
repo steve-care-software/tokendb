@@ -5,11 +5,23 @@ import (
 	"github.com/steve-care-software/tokendb/domain/states"
 )
 
-// Builder represents the transaction builder
+// Builder represents the transactions builder
 type Builder interface {
 	Create() Builder
-	WithState(state states.State) Builder
-	WithData(data []byte) Builder
+	WithList(list []Transaction) Builder
+	Now() (Transactions, error)
+}
+
+// Transactions represents transactions
+type Transactions interface {
+	List() []Transaction
+}
+
+// TransactionBuilder represents the transaction builder
+type TransactionBuilder interface {
+	Create() TransactionBuilder
+	WithState(state states.State) TransactionBuilder
+	WithData(data []byte) TransactionBuilder
 	Now() (Transaction, error)
 }
 
@@ -30,6 +42,7 @@ type RepositoryBuilder interface {
 // Repository represents the transaction repository
 type Repository interface {
 	Retrieve(pointer pointers.Pointer) (Transaction, error)
+	UnCommitted() (Transactions, error)
 }
 
 // Service represents a transaction service

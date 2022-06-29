@@ -61,3 +61,13 @@ type Token interface {
 	Index() uint
 	Name() string
 }
+
+// Repository represents the dictionary repository
+type Repository interface {
+	Retrieve() (Dictionary, error)
+}
+
+// Service represents the dictionary service
+type Service interface {
+	Insert(dictionary Dictionary) error
+}

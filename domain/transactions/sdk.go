@@ -5,6 +5,16 @@ import (
 	"github.com/steve-care-software/tokendb/domain/states"
 )
 
+// NewBuilder creates a new builder instance
+func NewBuilder() Builder {
+	return createBuilder()
+}
+
+// NewTransactionBuilder creates a new transaction builder
+func NewTransactionBuilder() TransactionBuilder {
+	return createTransactionBuilder()
+}
+
 // Builder represents the transactions builder
 type Builder interface {
 	Create() Builder

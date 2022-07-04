@@ -7,6 +7,21 @@ import (
 	"github.com/steve-care-software/validator/domain/grammars"
 )
 
+// NewBuilder creates a new builder instance
+func NewBuilder() Builder {
+	return createBuilder()
+}
+
+// NewTokensBuilder creates a new tokens builder
+func NewTokensBuilder() TokensBuilder {
+	return createTokensBuilder()
+}
+
+// NewTokenBuilder creates a new token builder
+func NewTokenBuilder() TokenBuilder {
+	return createTokenBuilder()
+}
+
 // Adapter represents the dictionary adapter
 type Adapter interface {
 	ToDictionary(grammar grammars.Grammar) (Dictionary, error)
@@ -16,7 +31,7 @@ type Adapter interface {
 type Builder interface {
 	Create() Builder
 	WithTokens(tokens Tokens) Builder
-	WithSelectors(selectors Selectors) Builder
+	WithSelectors(selectors []selectors.Selector) Builder
 	CreatedOn(createdOn time.Time) Builder
 	Now() (Dictionary, error)
 }
@@ -24,21 +39,8 @@ type Builder interface {
 // Dictionary represents the state dictionary
 type Dictionary interface {
 	Tokens() Tokens
-	Selectors() Selectors
+	Selectors() []selectors.Selector
 	CreatedOn() time.Time
-}
-
-// SelectorsBuilder represents a selectors builder
-type SelectorsBuilder interface {
-	Create() SelectorsBuilder
-	WithList(list []selectors.Selector) SelectorsBuilder
-	Now() (Selectors, error)
-}
-
-// Selectors represents selectors
-type Selectors interface {
-	List() []selectors.Selector
-	Matches(input selectors.Selector) ([]selectors.Selector, error)
 }
 
 // TokensBuilder represents a tokens builder

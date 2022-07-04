@@ -15,6 +15,7 @@ type Builder interface {
 
 // Pointer represents data pointer
 type Pointer interface {
+	Hash() []byte
 	Index() uint
 	HasNext() bool
 	Next() Pointer

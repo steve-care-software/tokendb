@@ -6,6 +6,11 @@ import (
 	"github.com/steve-care-software/tokendb/domain/pointers"
 )
 
+// NewBuilder creates a new builder instance
+func NewBuilder() Builder {
+	return createBuilder()
+}
+
 // Builder represents a state builder
 type Builder interface {
 	Create() Builder
@@ -20,16 +25,17 @@ type Builder interface {
 type State interface {
 	Hash() []byte
 	Height() uint
-	FindByHeight(height uint) (State, error)
-	FindByHash(hash []byte) (State, error)
-	Previous() []byte
 	Pointer() pointers.Pointer
 	CreatedOn() time.Time
+	HasPrevious() bool
+	Previous() []byte
 }
 
 // Repository represents the state repository
 type Repository interface {
-	Retrieve() (State, error)
+	RetrieveHead() (State, error)
+	RetrieveByHeight(height uint) (State, error)
+	RetrieveByHash(hash []byte) (State, error)
 }
 
 // Service represents the state service

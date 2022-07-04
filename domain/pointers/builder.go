@@ -1,6 +1,10 @@
 package pointers
 
-import "errors"
+import (
+	"crypto/sha512"
+	"errors"
+	"strconv"
+)
 
 type builder struct {
 	pIndex *uint
@@ -39,9 +43,22 @@ func (app *builder) Now() (Pointer, error) {
 		return nil, errors.New("the index is mandatory in order to build a Pointer instance")
 	}
 
+	data := []byte{}
+	data = append(data, []byte(strconv.Itoa(int(*app.pIndex)))...)
 	if app.next != nil {
-		return createPointerWithNext(*app.pIndex, app.next), nil
+		nextHash := app.next.Hash()
+		data = append(data, nextHash...)
 	}
 
-	return createPointer(*app.pIndex), nil
+	hash := sha512.New()
+	_, err := hash.Write([]byte(data))
+	if err != nil {
+		return nil, err
+	}
+
+	if app.next != nil {
+		return createPointerWithNext(hash.Sum(nil), *app.pIndex, app.next), nil
+	}
+
+	return createPointer(hash.Sum(nil), *app.pIndex), nil
 }

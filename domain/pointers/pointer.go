@@ -1,33 +1,43 @@
 package pointers
 
 type pointer struct {
+	hash  []byte
 	index uint
 	next  Pointer
 }
 
 func createPointer(
+	hash []byte,
 	index uint,
 ) Pointer {
-	return createPointerInternally(index, nil)
+	return createPointerInternally(hash, index, nil)
 }
 
 func createPointerWithNext(
+	hash []byte,
 	index uint,
 	next Pointer,
 ) Pointer {
-	return createPointerInternally(index, next)
+	return createPointerInternally(hash, index, next)
 }
 
 func createPointerInternally(
+	hash []byte,
 	index uint,
 	next Pointer,
 ) Pointer {
 	out := pointer{
+		hash:  hash,
 		index: index,
 		next:  next,
 	}
 
 	return &out
+}
+
+// Hash returns the hash
+func (obj *pointer) Hash() []byte {
+	return obj.hash
 }
 
 // Index returns the index
